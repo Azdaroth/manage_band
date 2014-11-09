@@ -11,10 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141108180754) do
+ActiveRecord::Schema.define(version: 20141109113124) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bands", force: true do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["name"], :name => "index_bands_on_name", :unique => true
+  end
 
   create_table "users", force: true do |t|
     t.string   "email"
@@ -39,6 +46,17 @@ ActiveRecord::Schema.define(version: 20141108180754) do
     t.index ["email"], :name => "index_users_on_email"
     t.index ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
     t.index ["uid"], :name => "index_users_on_uid", :unique => true
+  end
+
+  create_table "band_users", force: true do |t|
+    t.integer  "band_id",    null: false
+    t.integer  "user_id",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["band_id"], :name => "fk__band_users_band_id"
+    t.index ["user_id"], :name => "fk__band_users_user_id"
+    t.foreign_key ["band_id"], "bands", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_band_users_band_id"
+    t.foreign_key ["user_id"], "users", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_band_users_user_id"
   end
 
 end

@@ -22,6 +22,7 @@ module ManageBand
 
     config.autoload_paths += %W(#{config.root}/app/usecases)
     config.autoload_paths += %W(#{config.root}/app/forms)
+    config.autoload_paths += %W(#{config.root}/app/validators)
 
 
     config.middleware.use Rack::Cors do
