@@ -1,14 +1,9 @@
 source 'https://rubygems.org'
 
-
 gem 'rails', '4.1.7'
-
 gem 'rails-api'
-
 gem 'spring', group: :development
-
 gem 'pg'
-
 gem "carrierwave"
 gem "mini_magick"
 gem "capistrano", "~> 3.2.0"
