@@ -20,6 +20,7 @@ gem 'active_model_serializers'
 gem 'devise_token_auth'
 gem 'rack-cors', require: 'rack/cors'
 gem 'omniauth'
+gem 'acts-as-taggable-on', '~> 3.4'
 
 group :development, :test do
   gem "quiet_assets"

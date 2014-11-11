@@ -6,7 +6,7 @@ describe User::RegistrationForm do
 
   describe "#persist" do
 
-    let(:valid_params) {
+    let(:params) {
       {
         email: "email@example.com",
         password: "foobar123",
@@ -16,17 +16,30 @@ describe User::RegistrationForm do
       }
     }
 
+    context "validation" do
+
+      before(:each) do
+        Band.create(name: "Death Levels All")
+      end
+
+      it "adds error if user tries to join to other band" do
+        subject.persist(params)
+        expect(subject.errors.messages[:band_name]).to be_present
+      end
+
+    end
+
     context "side effects" do
 
       it "creates user" do
         expect do
-          subject.persist(valid_params)
+          subject.persist(params)
         end.to change(User, :count).by(1)
       end
 
       it "creates band and assigns user to it" do
         expect do
-          subject.persist(valid_params)
+          subject.persist(params)
         end.to change(Band, :count).by(1)
         last_user = User.last
         expect(last_user.bands.count).to eq 1
@@ -38,7 +51,7 @@ describe User::RegistrationForm do
     context "return value" do
 
       it "returns true if form is valid" do
-        expect(subject.persist(valid_params)).to eq true
+        expect(subject.persist(params)).to eq true
       end
 
       it "returns false if form is invalid" do
