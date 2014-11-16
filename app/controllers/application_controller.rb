@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::API
 
+  include ::ActionController::Serialization
+  # TO-DO send pull request and add entry in docs that this module is required
   include ActionController::MimeResponds
   include ActionController::ImplicitRender
   # These modules are required to work with devise token auth

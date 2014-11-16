@@ -1,5 +1,6 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
+require 'factory_girl_rails'
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 RSpec.configure do |config|
@@ -116,4 +117,9 @@ Spork.prefork do
 
   end
 
+end
+
+
+Spork.each_run do
+  FactoryGirl.reload
 end
