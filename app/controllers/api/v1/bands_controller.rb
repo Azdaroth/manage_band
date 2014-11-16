@@ -1,4 +1,4 @@
-class BandsController < ApplicationController
+class API::V1::BandsController < ApplicationController
 
   before_filter :authenticate_user!
 

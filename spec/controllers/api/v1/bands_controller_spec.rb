@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe User::BandsController do
+describe API::V1::BandsController do
 
   let!(:user) { create(:user, :with_bands) }
   let!(:order_band) { create(:band) }

@@ -1,4 +1,4 @@
-class Band::AssetsController < ApplicationController
+class API::V1::Band::AssetsController < ApplicationController
 
   before_action :authenticate_user!
 
