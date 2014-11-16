@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
     namespace :v1 do
 
-      resources :bands, only: [:index] do
+      resources :bands, only: [:index, :show] do
         resources :assets, only: [:show, :index, :create, :update, :destroy], controller: 'band/assets'
       end
 
