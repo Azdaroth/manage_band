@@ -1,11 +1,27 @@
 class AssetSerializer < ActiveModel::Serializer
 
-  attributes :created_at, :name, :file, :tag_list
+  delegate :id, :name, :tag_list, to: :object
+
+  attributes :item, :children
 
   has_many :assets
 
-  # these should be belongs_to but doesn't wotk with ActiveModel::Serializer
-  # causes undefined method error
-  has_one :band
+  def item
+    {
+      id: id,
+      name: name,
+      file_url: file_url,
+      tag_list: tag_list
+    }
+  end
+
+  def children
+    assets
+  end
+
+  def file_url
+    ENV["HOST"] + object.attachment.file.url
+  end
+
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141109142854) do
+ActiveRecord::Schema.define(version: 20141206191037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,19 +23,42 @@ ActiveRecord::Schema.define(version: 20141109142854) do
     t.index ["name"], :name => "index_bands_on_name", :unique => true
   end
 
-  create_table "assets", force: true do |t|
-    t.string   "file",       null: false
+  create_table "asset_lists", force: true do |t|
     t.string   "name",       null: false
     t.integer  "band_id",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["band_id"], :name => "fk__asset_lists_band_id"
+    t.index ["band_id"], :name => "index_asset_lists_on_band_id"
+    t.foreign_key ["band_id"], "bands", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_asset_lists_band_id"
+  end
+
+  create_table "assets", force: true do |t|
+    t.string   "name",       null: false
     t.integer  "asset_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "list_id",    null: false
     t.index ["asset_id"], :name => "fk__assets_asset_id"
     t.index ["asset_id"], :name => "index_assets_on_asset_id"
-    t.index ["band_id"], :name => "fk__assets_band_id"
-    t.index ["band_id"], :name => "index_assets_on_band_id"
+    t.index ["list_id"], :name => "fk__assets_list_id"
+    t.index ["list_id"], :name => "index_assets_on_list_id"
     t.foreign_key ["asset_id"], "assets", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_assets_asset_id"
-    t.foreign_key ["band_id"], "bands", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_assets_band_id"
+    t.foreign_key ["list_id"], "asset_lists", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_assets_list_id"
+  end
+
+  create_table "asset_attachments", force: true do |t|
+    t.integer  "asset_id"
+    t.string   "file",       null: false
+    t.integer  "band_id",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["asset_id"], :name => "fk__asset_attachments_asset_id"
+    t.index ["asset_id"], :name => "index_asset_attachments_on_asset_id"
+    t.index ["band_id"], :name => "fk__asset_attachments_band_id"
+    t.index ["band_id"], :name => "index_asset_attachments_on_band_id"
+    t.foreign_key ["asset_id"], "assets", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_asset_attachments_asset_id"
+    t.foreign_key ["band_id"], "bands", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_asset_attachments_band_id"
   end
 
   create_table "users", force: true do |t|
