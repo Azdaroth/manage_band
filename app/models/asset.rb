@@ -4,6 +4,8 @@ class Asset < ActiveRecord::Base
 
   delegate :band, to: :list, allow_nil: false, prefix: false
 
+  scope :without_parent, -> { where(asset_id: nil) }
+
   has_many :assets
   has_one :attachment
 

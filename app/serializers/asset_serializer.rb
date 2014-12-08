@@ -4,8 +4,6 @@ class AssetSerializer < ActiveModel::Serializer
 
   attributes :item, :children
 
-  has_many :assets
-
   def item
     {
       id: id,
@@ -16,11 +14,13 @@ class AssetSerializer < ActiveModel::Serializer
   end
 
   def children
-    assets
+    object.assets.map { |asset| AssetSerializer.new(asset, root: false) }
   end
 
   def file_url
-    ENV["HOST"] + object.attachment.file.url
+    if object.attachment
+      ENV["HOST"] + object.attachment.file.url
+    end
   end
 
 

@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141206191037) do
+ActiveRecord::Schema.define(version: 20141207131248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,15 +33,17 @@ ActiveRecord::Schema.define(version: 20141206191037) do
   end
 
   create_table "assets", force: true do |t|
-    t.string   "name",       null: false
+    t.string   "name",                   null: false
     t.integer  "asset_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "list_id",    null: false
+    t.integer  "list_id",                null: false
+    t.integer  "position",   default: 0, null: false
     t.index ["asset_id"], :name => "fk__assets_asset_id"
     t.index ["asset_id"], :name => "index_assets_on_asset_id"
     t.index ["list_id"], :name => "fk__assets_list_id"
     t.index ["list_id"], :name => "index_assets_on_list_id"
+    t.index ["position"], :name => "index_assets_on_position"
     t.foreign_key ["asset_id"], "assets", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_assets_asset_id"
     t.foreign_key ["list_id"], "asset_lists", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_assets_list_id"
   end
