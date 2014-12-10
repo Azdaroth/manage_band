@@ -4,6 +4,7 @@ describe Asset::DeepLinker do
 
   let!(:band) { create(:band) }
   let!(:asset_list) { create(:asset_list, band: band) }
+  let!(:other_asset_list) { create(:asset_list, band: band) }
   let!(:asset_1) { create(:asset, list: asset_list) }
   let!(:asset_2) { create(:asset, list: asset_list) }
   let!(:asset_3) { create(:asset, list: asset_list) }
@@ -25,8 +26,8 @@ describe Asset::DeepLinker do
       ]
     }
 
-    it "links assets together in tree structure with proper position" do
-      subject.link(tree_params)
+    it "links assets together in assetList tree structure with proper position" do
+      subject.link(other_asset_list, tree_params)
 
       asset_1.reload
       asset_2.reload
@@ -35,12 +36,15 @@ describe Asset::DeepLinker do
       expect(asset_1.asset).to eq nil
       expect(asset_1.assets.count).to eq 1
       expect(asset_1.assets).to include asset_2
+      expect(asset_1.list).to eq other_asset_list
 
       expect(asset_2.asset).to eq asset_1
       expect(asset_2.assets).to be_empty
+      expect(asset_2.list).to eq other_asset_list
 
       expect(asset_3.asset).to eq nil
       expect(asset_3.assets).to be_empty
+      expect(asset_3.list).to eq other_asset_list
 
       expect(asset_1.position).to eq 0
       expect(asset_2.position).to eq 0

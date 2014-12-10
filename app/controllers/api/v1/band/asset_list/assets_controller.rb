@@ -24,14 +24,23 @@ class Api::V1::Band::AssetList::AssetsController < ApplicationController
     render json: asset.destroy
   end
 
+  def link
+    Asset::DeepLinker.new(band).link(scope, params[:assets_tree])
+    render json: {}
+  end
+
   private
 
     def asset_params
       params.require(:asset).permit!
     end
 
+    def band
+      @band ||= current_user.bands.find(params[:band_id])
+    end
+
     def scope
-      @scope ||= current_user.bands.find(params[:band_id]).asset_lists.find(params[:asset_list_id])
+      @scope ||= band.asset_lists.find(params[:asset_list_id])
     end
 
     def assets

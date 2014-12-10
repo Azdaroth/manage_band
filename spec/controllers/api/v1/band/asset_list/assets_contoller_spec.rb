@@ -12,6 +12,36 @@ describe Api::V1::Band::AssetList::AssetsController do
     ENV["HOST"] = "http://manage_band.dev"
   end
 
+  it_behaves_like 'requires_authentication', [:link, :show, :index, :create, :update, :destroy]
+
+  describe "#link" do
+
+    let(:tree_params) {
+      []
+    }
+
+    let(:linker) { instance_double("Asset::DeepLinker", link: true) }
+    let(:user_bands) { Band }
+
+    before(:each) do
+      allow(user).to receive(:bands) { user_bands }
+      allow(user_bands).to receive(:find).with(band.id.to_s) { band }
+      allow(Asset::DeepLinker).to receive(:new).with(band) { linker }
+    end
+
+    it "links assets together" do
+      stub_current_user(user)
+      params = {
+        "band_id" => band.id,
+        "asset_list_id" => asset_list.id,
+        "assets_tree" => tree_params
+      }
+      post :link, params
+      expect(linker).to have_received(:link).with(asset_list, tree_params)
+    end
+
+  end
+
   describe "#create" do
 
     before(:each) do

@@ -4,14 +4,13 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :bands, only: [:index, :show] do
-        resources :assets, only: [], controller: 'band/assets' do
-          collection do
-            post 'link'
-          end
-        end
         resources :asset_attachments, only: [:create], controller: 'band/asset_attachments'
         resources :asset_lists, only: [:index, :show, :create, :update, :destroy], controller: 'band/asset_lists' do
-          resources :assets, only: [:show, :index, :create, :update, :destroy], controller: 'band/asset_list/assets'
+          resources :assets, only: [:show, :index, :create, :update, :destroy], controller: 'band/asset_list/assets' do
+            collection do
+              post 'link'
+            end
+          end
         end
       end
     end
