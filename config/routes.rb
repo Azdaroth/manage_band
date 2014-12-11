@@ -12,6 +12,9 @@ Rails.application.routes.draw do
             end
           end
         end
+        resources :task_lists, controller: "band/task_lists" do
+          resources :tasks, only: [:show, :index, :create, :update, :destroy], controller: 'band/task_list/tasks'
+        end
       end
     end
   end

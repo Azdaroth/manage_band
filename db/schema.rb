@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141207131248) do
+ActiveRecord::Schema.define(version: 20141211144714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,27 @@ ActiveRecord::Schema.define(version: 20141207131248) do
     t.index ["tag_id"], :name => "fk__taggings_tag_id"
     t.index ["taggable_id", "taggable_type", "context"], :name => "index_taggings_on_taggable_id_and_taggable_type_and_context"
     t.foreign_key ["tag_id"], "tags", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_taggings_tag_id"
+  end
+
+  create_table "task_lists", force: true do |t|
+    t.string   "name"
+    t.integer  "band_id",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["band_id"], :name => "fk__task_lists_band_id"
+    t.index ["band_id"], :name => "index_task_lists_on_band_id"
+    t.foreign_key ["band_id"], "bands", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_task_lists_band_id"
+  end
+
+  create_table "tasks", force: true do |t|
+    t.integer  "list_id",                null: false
+    t.text     "name",                   null: false
+    t.integer  "position",   default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["list_id"], :name => "fk__tasks_list_id"
+    t.index ["list_id"], :name => "index_tasks_on_list_id"
+    t.foreign_key ["list_id"], "task_lists", ["id"], :on_update => :no_action, :on_delete => :no_action, :name => "fk_tasks_list_id"
   end
 
 end

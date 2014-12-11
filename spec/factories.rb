@@ -43,4 +43,24 @@ FactoryGirl.define do
     end
   end
 
+  factory :task_list do
+    sequence(:name) { |n| "Name_#{n}" }
+
+    trait :with_band do
+      band
+    end
+  end
+
+    factory :task do
+    sequence(:name) { |n| "Name_#{n}" }
+
+    trait :with_band do
+      band
+    end
+
+    trait :with_list do
+      association :list, factory: :task_list
+    end
+  end
+
 end
