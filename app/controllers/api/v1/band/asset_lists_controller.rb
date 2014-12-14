@@ -37,7 +37,7 @@ class Api::V1::Band::AssetListsController < ApplicationController
     end
 
     def asset_list
-      @asset ||= asset_listss.find(params[:id])
+      @asset ||= asset_lists.find(params[:id])
     end
 
 end
