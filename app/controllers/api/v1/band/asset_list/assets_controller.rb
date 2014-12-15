@@ -17,7 +17,9 @@ class Api::V1::Band::AssetList::AssetsController < ApplicationController
   end
 
   def update
-    render json: asset.update(asset_params)
+    form = Asset::CreationForm.new(asset)
+    form.persist(asset_params)
+    render json: form.model
   end
 
   def destroy

@@ -6,6 +6,7 @@ describe Api::V1::Band::AssetList::AssetsController do
   let!(:user) { create(:user) }
   let!(:asset_list) { create(:asset_list, band: band) }
   let!(:asset_attachment) { create(:asset_attachment, band: band) }
+  let!(:asset) { create(:asset, list: asset_list, name: "name") }
 
   before(:each) do
     user.bands << band
@@ -13,6 +14,31 @@ describe Api::V1::Band::AssetList::AssetsController do
   end
 
   it_behaves_like 'requires_authentication', [:link, :show, :index, :create, :update, :destroy]
+
+  describe "#asset" do
+
+    before(:each) do
+      stub_current_user(user)
+    end
+
+    it "returns serialized asset" do
+      expected_result = {
+        "asset" => {
+          "item" => {
+            "id" => asset.id,
+            "name" => asset.name,
+            "file_url" => nil,
+            "tag_list" => [],
+            "asset_attachment_id" => nil
+          },
+          "children"  => []
+        }
+      }
+      get :show, band_id: band.id, asset_list_id: asset_list.id, id: asset.id
+      expect(parsed_response).to eq expected_result
+    end
+
+  end
 
   describe "#link" do
 
@@ -72,12 +98,68 @@ describe Api::V1::Band::AssetList::AssetsController do
             "id" => asset.id,
             "name" => "asset name",
             "file_url" => "http://manage_band.dev/system/test/asset/attachment/file/#{asset_attachment.id}/rails.png",
-            "tag_list" => []
+            "tag_list" => [],
+            "asset_attachment_id" => asset_attachment.id
           },
           "children"  => []
         }
       }
       expect(parsed_response).to eq expected_result
+    end
+
+  end
+
+  describe "#update" do
+
+    before(:each) do
+      stub_current_user(user)
+    end
+
+    let(:params) {
+      {
+        asset: {
+          name: "new asset name",
+          asset_attachment_id: asset_attachment.id
+        }
+      }.merge(band_id: band.id, asset_list_id: asset_list.id, id: asset.id)
+    }
+
+    it "updates asset" do
+      expect do
+        post :update, params
+      end.to change { asset.reload.name }.from("name").to("new asset name")
+    end
+
+    it "renders json" do
+      post :update, params
+      expected_result = {
+        "asset" => {
+          "item" => {
+            "id" => asset.id,
+            "name" => "new asset name",
+            "file_url" => "http://manage_band.dev/system/test/asset/attachment/file/#{asset_attachment.id}/rails.png",
+            "tag_list" => [],
+            "asset_attachment_id" => asset_attachment.id
+          },
+          "children"  => []
+        }
+      }
+      expect(parsed_response).to eq expected_result
+    end
+
+  end
+
+  describe "#destroy" do
+
+    before(:each) do
+      stub_current_user(user)
+    end
+
+    it "destroys asset" do
+      params = { band_id: band.id, asset_list_id: asset_list.id, id: asset.id }
+      expect do
+        post :destroy, params
+      end.to change { asset_list.assets.count }.by(-1)
     end
 
   end

@@ -14,7 +14,7 @@ class Asset::DeepLinker
   private
 
     def deep_link(list, root, tree_params = {})
-      tree_params.each_with_index do |asset_aggregate, idx|
+      Array.wrap(tree_params).each_with_index do |asset_aggregate, idx|
         asset = scope.assets.find(asset_aggregate["item"]["id"])
         asset.position = idx
         asset.asset = root

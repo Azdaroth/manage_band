@@ -33,7 +33,8 @@ describe AssetListSerializer do
                 "id" => asset.id,
                 "name" => "root asset",
                 "file_url" => "http://manage_band.dev#{asset_attachment.file.url}",
-                "tag_list" => []
+                "tag_list" => [],
+                "asset_attachment_id" => asset_attachment.id
               },
               "children" => []
             }
