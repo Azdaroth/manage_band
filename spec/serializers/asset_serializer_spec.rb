@@ -7,7 +7,7 @@ describe AssetSerializer do
   let(:nested_asset) { build_stubbed(:asset, name: "nested asset") }
 
   before(:each) do
-    allow(asset).to receive(:assets) { [nested_asset] }
+    allow(asset).to receive(:assets_by_position) { [nested_asset] }
   end
 
   subject { AssetSerializer.new(asset) }

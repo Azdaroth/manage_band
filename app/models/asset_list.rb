@@ -9,7 +9,7 @@ class AssetList < ActiveRecord::Base
   validates :name, presence: true
 
   def assets_without_parent
-    assets.without_parent
+    assets.without_parent.by_position
   end
 
 end

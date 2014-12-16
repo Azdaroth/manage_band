@@ -15,7 +15,7 @@ class AssetSerializer < ActiveModel::Serializer
   end
 
   def children
-    object.assets.map { |asset| AssetSerializer.new(asset, root: false) }
+    object.assets_by_position.map { |asset| AssetSerializer.new(asset, root: false) }
   end
 
   def asset_attachment_id
