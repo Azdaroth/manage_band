@@ -19,7 +19,7 @@ class Api::V1::Band::AssetListsController < ApplicationController
   end
 
   def destroy
-    render json: asset.destroy
+    render json: asset_list.destroy
   end
 
   private
