@@ -1,6 +1,6 @@
 class AssetSerializer < ActiveModel::Serializer
 
-  delegate :id, :name, :tag_list, to: :object
+  delegate :id, :name, to: :object
 
   attributes :item, :children
 
@@ -22,6 +22,10 @@ class AssetSerializer < ActiveModel::Serializer
     if object.attachment
       object.attachment.id
     end
+  end
+
+  def tag_list
+    object.tags.map(&:name)
   end
 
   def file_url

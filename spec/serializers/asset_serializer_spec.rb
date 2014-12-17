@@ -7,6 +7,7 @@ describe AssetSerializer do
   let(:nested_asset) { build_stubbed(:asset, name: "nested asset") }
 
   before(:each) do
+    allow(asset).to receive(:tags) { [ OpenStruct.new(name: "name") ] }
     allow(asset).to receive(:assets_by_position) { [nested_asset] }
   end
 
@@ -25,7 +26,7 @@ describe AssetSerializer do
             "id" => asset.id,
             "name" => "root asset",
             "file_url" => "http://manage_band.dev#{asset_attachment.file.url}",
-            "tag_list" => [],
+            "tag_list" => ["name"],
             "asset_attachment_id" => asset_attachment.id
           },
           "children" => [

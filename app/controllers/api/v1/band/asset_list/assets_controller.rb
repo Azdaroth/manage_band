@@ -11,13 +11,13 @@ class Api::V1::Band::AssetList::AssetsController < ApplicationController
   end
 
   def create
-    form = Asset::CreationForm.new(assets.build)
+    form = Asset::CreationForm.new(assets.build, band: band)
     form.persist(asset_params)
     render json: form.model
   end
 
   def update
-    form = Asset::CreationForm.new(asset)
+    form = Asset::CreationForm.new(asset, band: band)
     form.persist(asset_params)
     render json: form.model
   end
