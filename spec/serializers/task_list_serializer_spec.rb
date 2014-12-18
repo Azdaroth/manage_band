@@ -6,7 +6,7 @@ describe TaskListSerializer do
 	let(:task) { build_stubbed(:task, name: "task") }
 
 	before(:each) do
-		allow(task_list).to receive(:tasks) { [task] }
+		allow(task_list).to receive(:tasks_by_position) { [task] }
 	end
 
 	subject { TaskListSerializer.new(task_list) }

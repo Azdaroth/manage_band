@@ -4,4 +4,8 @@ class TaskList < ActiveRecord::Base
 
   belongs_to :band
 
+  def tasks_by_position
+    tasks.by_position
+  end
+
 end
