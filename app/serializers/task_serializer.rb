@@ -1,6 +1,5 @@
 class TaskSerializer < ActiveModel::Serializer
 
-  attributes :name, :position
-
+  attributes :name, :position, :id, :list_id
 
 end

@@ -25,3 +25,4 @@ en:
     messages:
       email: "Invalid format"
       must_be_invited_to_band: "You must ask for invitation to join to %{band_name}."
+      list_does_not_belong_to_band: "You must ask for invitation to join to %{band_name}."

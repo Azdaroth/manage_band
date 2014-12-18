@@ -15,10 +15,13 @@ describe TaskListSerializer do
 		result = {
 			"task_list" => {
 				"name" => "task_list",
+				"id" => task_list.id,
 				"tasks" => [
 					{
 						"name" => "task",
-						"position" => 0
+						"position" => 0,
+						"id" => task.id,
+						"list_id" => nil
 					}
 				]
 			}

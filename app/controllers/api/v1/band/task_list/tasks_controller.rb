@@ -15,7 +15,9 @@ class Api::V1::Band::TaskList::TasksController < ApplicationController
   end
 
   def update
-    render json: task.update(task_params)
+    form = Task::UpdateForm.new(task, band: band)
+    form.persist(task_params)
+    render json: form.model
   end
 
   def destroy

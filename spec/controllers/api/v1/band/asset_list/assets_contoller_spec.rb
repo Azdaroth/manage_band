@@ -15,7 +15,7 @@ describe Api::V1::Band::AssetList::AssetsController do
 
   it_behaves_like 'requires_authentication', [:link, :show, :index, :create, :update, :destroy]
 
-  describe "#asset" do
+  describe "#show" do
 
     before(:each) do
       stub_current_user(user)
